@@ -25,3 +25,11 @@ class Config:
     @staticmethod
     def init_app(app):
         pass
+
+
+class DevelopmentConfig(Config):
+    """
+    subaclass for development configurations
+    """
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATA_URL') or 'sqliter:///' + os.path.join(basedir, 'dev_data.sqlite')
