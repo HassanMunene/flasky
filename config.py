@@ -12,8 +12,7 @@ class Config:
     """
     This is the base class
     """
-    SECTRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     @staticmethod
@@ -26,7 +25,7 @@ class DevelopmentConfig(Config):
     subaclass for development configurations
     """
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATA_URL') or 'sqliter:///' + os.path.join(basedir, 'dev_data.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'dev_data.sqlite')
 
 class TestingConfig(Config):
     """
@@ -39,7 +38,7 @@ class ProductionConfig(Config):
     """
     subclass for production configurations
     """
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
 config = {
         'development': DevelopmentConfig,
