@@ -20,8 +20,8 @@ class Config:
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     MAIL_DEBUG = False
-    MAIL_USERNAME = config("Hassan")
-    MAIL_PASSWORD = config("Munene14347")
+    MAIL_USERNAME = "Hassan"
+    MAIL_PASSWORD = "Munene14347"
 
     @staticmethod
     def init_app(app):
