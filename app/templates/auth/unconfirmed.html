@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Confirm your account{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+	<h1>Hello {{ current_user.username }}</h1>
+</div>
+<div class="page-content">
+	<h2>You have not confirmed you account yet</h2>
+	<p>Before you can access this site you need to confirm your account. Check you inbox, you should have received an email with a confirmation link<br/> Need another confirmation email?
+	<a href="/">Click here</a>
+	</p>
+{% endblock %}
+
