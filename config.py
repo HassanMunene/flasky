@@ -14,14 +14,13 @@ class Config:
     """
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    MAIL_DEFAULT_SENDER = "devtools14347@gmail.com"
-    MAIL_SERVER = "smtp.googlemail.com"
+    MAIL_DEFAULT_SENDER = "devtools14347@outlook.com"
+    MAIL_SERVER = "smtp.office365.com"
     MAIL_PORT = 587
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
+    MAIL_USE_TLS = True
     MAIL_DEBUG = False
-    MAIL_USERNAME = "devtools14347@gmail.com"
-    MAIL_PASSWORD = "bbvrsazlvithncin"
+    MAIL_USERNAME = "devtools14347@outlook.com"
+    MAIL_PASSWORD = "Munene14347"
 
     @staticmethod
     def init_app(app):
