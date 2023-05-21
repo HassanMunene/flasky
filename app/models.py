@@ -1,9 +1,11 @@
+from itsdangerous import URLSafeTimedSerializer as Serializer
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from . import login_manager
+from flask import current_app
 
 class Role(db.Model):
     """
