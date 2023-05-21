@@ -1,9 +1,3 @@
-"""
-this module import the auth blueprint and defines
-the routes associated with authentication using its
-routes decorator
-for now /login route is added
-"""
 from flask import render_template, redirect, url_for, request, flash
 from . import auth
 from flask_login import login_user, logout_user, login_required, current_user
@@ -32,6 +26,12 @@ def logout():
     logout_user()
     flash('You have been logged out.')
     return redirect(url_for('main.index'))
+
+@auth.route('/change_password')
+@login_required
+def change_password():
+    return render_template('auth/change_password.html')
+
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
