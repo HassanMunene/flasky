@@ -30,7 +30,8 @@ def logout():
 @auth.route('/change_password')
 @login_required
 def change_password():
-    return render_template('auth/change_password.html')
+    form = ChangePassword()
+    return render_template('auth/change_password.html', form=form)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
