@@ -84,4 +84,4 @@ def unconfirmed():
 @auth.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
     form = ResetPassword()
-    return render_template('auth/reset_password', form=form)
+    return render_template('auth/reset_password.html', form=form)
