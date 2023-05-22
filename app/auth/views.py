@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from . import auth
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models import User
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, ChangePassword
 from .. import db
 from ..emails import send_email
 
@@ -31,6 +31,14 @@ def logout():
 @login_required
 def change_password():
     form = ChangePassword()
+    if form.validate_on_submit():
+        user = current_user
+        if user.verify_password(form.oldpassword.data):
+            user.password = form.newpassword.data
+            db.session.add(user)
+            db.session.commit()
+            flash('Password has been changed successfully')
+            return redirect(url_for('main.index'))
     return render_template('auth/change_password.html', form=form)
 
 
