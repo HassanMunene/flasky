@@ -27,7 +27,7 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('main.index'))
 
-@auth.route('/change_password')
+@auth.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     form = ChangePassword()
