@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from . import auth
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models import User
-from .forms import LoginForm, RegistrationForm, ChangePassword
+from .forms import LoginForm, RegistrationForm, ChangePassword, ResetPassword
 from .. import db
 from ..emails import send_email
 
@@ -80,3 +80,8 @@ def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
+
+@auth.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    form = ResetPassword()
+    return render_template('auth/reset_password', form=form)
