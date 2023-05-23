@@ -106,8 +106,15 @@ def emailReset():
     return render_template('auth/emailReset.html', form=form)
 
 @auth.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password():
+def reset_password(token):
     form = ResetPassword()
-    if form.validate_on_submit():
-        pass
-    return render_template('auth/reset_password.html', form=form)
+    form2 = EmailReset()
+    user = User()
+    dict_data = user.confirm_reset_token(token)
+    email1 = dict_data['reset']
+    user1 = User.query.filter_by(email=email1).first()
+    if user1.email == email1:
+        return render_template('auth/reset_password.html', form=form)
+    else:
+        return render_template('auth/emailReset.html', form=form2)
+    flash("email not verified")
