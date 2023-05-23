@@ -55,6 +55,14 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'reset': self.email})
 
+    def confirm_reset_token(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        return data
+
     @property
     def password(self):
         raise AttributeError('Password is not a readable attribute')
