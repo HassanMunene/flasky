@@ -1,7 +1,7 @@
-{{ Dear user.usename }}
+Dear {{ user.username }}
 Welcome to Flasky,
 To reset your password, please click the following link:
-{{ url_for('auth.emailReset') }}
+{{ url_for('auth.emailReset', token=token, _external=True) }}
 
 Sincerely,
 The flasky team

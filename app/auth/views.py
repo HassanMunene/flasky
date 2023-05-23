@@ -97,10 +97,15 @@ def emailReset():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None:
-            flash("you good")
+            token = user.generate_reset_token()
+            send_email(user.email, 'Reset Password', 'auth/email/reset', user=user, token=token)
+            flash("Email successfully confirmed check your inbox for the link")
+            return redirect(url_for('auth.emailReset'))
+        else:
+            flash("This email is not recognised")
     return render_template('auth/emailReset.html', form=form)
 
-@auth.route('/reset_password', methods=['GET', 'POST'])
+@auth.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password():
     form = ResetPassword()
     if form.validate_on_submit():
