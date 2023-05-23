@@ -5,18 +5,17 @@
 
 {% block page_content %}
 <div class="page-header">
-	<h1>Login</h1>
+    <h1>Login</h1>
 </div>
-<p>
+<div class="col-md-4">
+	<p>
 	New User?
 	<a href="{{ url_for('auth.register') }}">Click here to register</a>
-</p>
-<div class="col-md-4">
+	</p>
 	{{ wtf.quick_form(form) }}
-</div>
-<p>
+	<p>
 	Forgot password?
-	<a href="{{ url_for('auth.reset_password') }}">Click here to reset password</a>
-</p>
+	<a href="{{ url_for('auth.emailReset') }}">Click here to reset password</a>
+	</p>
+</div>
 {% endblock %}
-
