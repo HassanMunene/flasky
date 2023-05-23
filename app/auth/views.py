@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from . import auth
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models import User
-from .forms import LoginForm, RegistrationForm, ChangePassword, ResetPassword
+from .forms import LoginForm, RegistrationForm, ChangePassword, ResetPassword, EmailReset
 from .. import db
 from ..emails import send_email
 
@@ -39,6 +39,10 @@ def change_password():
             db.session.commit()
             flash('Password has been changed successfully')
             return redirect(url_for('main.index'))
+    if request.form.get('Click here to reset password'):
+        email = form.data.email
+        if email is None:
+            flash('You need to enter you email to proceed')
     return render_template('auth/change_password.html', form=form)
 
 
@@ -81,7 +85,24 @@ def unconfirmed():
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
 
+@auth.route('/emailReset', methods=['GET', 'POST'])
+def emailReset():
+    """
+    This is the route that will render
+    a form that requires you to enter your
+    email or username in case you requested
+    a password reset after forgetting your password
+    """
+    form = EmailReset()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None:
+            flash("you good")
+    return render_template('auth/emailReset.html', form=form)
+
 @auth.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
     form = ResetPassword()
+    if form.validate_on_submit():
+        pass
     return render_template('auth/reset_password.html', form=form)
