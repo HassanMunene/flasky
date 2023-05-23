@@ -114,7 +114,14 @@ def reset_password(token):
     email1 = dict_data['reset']
     user1 = User.query.filter_by(email=email1).first()
     if user1.email == email1:
-        return render_template('auth/reset_password.html', form=form)
+        render_template('auth/reset_password.html', form=form)
+
+        if form.validate_on_submit():
+            user1.password = form.password.data
+            db.session.add(user1)
+            db.session.commit()
+            flash("Password successfully updated!")
+            return redirect(url_for('auth.login'))
     else:
         return render_template('auth/emailReset.html', form=form2)
-    flash("email not verified")
+    return render_template('auth/reset_password.html', form=form)
