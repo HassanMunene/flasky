@@ -14,7 +14,14 @@ class Role(db.Model):
     __tablename__ = 'roles'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    default = db.column(db.Boolean, default=False, index=True)
+    permissions = db.Column(db.Integer)
     users = db.relationship('User', backref='role')
+
+    def __init__(self, **kwargs):
+        super(Role, self).__init__(*kwargs)
+        if self.permissions is None:
+            self.permissions = 0
 
     def __repr__(self):
         """
@@ -22,6 +29,18 @@ class Role(db.Model):
         mainly for debugging and testing
         """
         return '<Role %r>' % self.name
+
+
+class Permission:
+    """
+    A mapping of specific tasks with
+    their permission values
+    """
+    FOLLOW = 1
+    COMMENT = 2
+    WRITE = 4
+    MODERATE = 8
+    ADMIN = 16
 
 class User(UserMixin, db.Model):
     """
