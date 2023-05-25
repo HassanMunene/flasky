@@ -4,6 +4,7 @@ from . import main
 from .forms import NameForm
 from .. import db
 from ..models import User
+from ..decorators import admin_requied, permission_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -21,3 +22,16 @@ def index():
         form.name.data = ''
         return redirect(url_for('.index'))
     return render_template('index.html', form=form, name=session.get('name'), known=session.get('known', False))
+
+@main.route('/admin')
+@login_required
+@admin_required
+def for_admins_only():
+    return 'For administrators'
+
+@main.route('/moderate')
+@login_required
+@permission_required(Permission.MODERATE)
+def for_moderators_only():
+    return 'For comment moderators'
+
