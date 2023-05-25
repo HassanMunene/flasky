@@ -21,6 +21,7 @@ class Config:
     MAIL_DEBUG = False
     MAIL_USERNAME = "devtools14347@outlook.com"
     MAIL_PASSWORD = "Munene14347"
+    FLASKY_ADMIN = "devtools14347@outlook.com"
 
     @staticmethod
     def init_app(app):

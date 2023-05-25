@@ -93,6 +93,14 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    def ping(self):
+        """
+        refresh user's last time visit
+        everytime the user visits the app
+        """
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
 
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)

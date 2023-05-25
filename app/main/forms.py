@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired, Length
 
 class NameForm(FlaskForm):
     """
@@ -18,4 +18,4 @@ class EditProfileForm(FlaskForm):
     name = StringField('Real Name', validators=[Length(1, 64)])
     location = StringField('Location', validators=[Length(1, 64)])
     about_me = TextAreaField('About me')
-    submit = SubmitField('Submit)
+    submit = SubmitField('Submit')
