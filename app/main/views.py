@@ -3,8 +3,9 @@ from flask import render_template, session, redirect, url_for
 from . import main
 from .forms import NameForm
 from .. import db
-from ..models import User
-from ..decorators import admin_requied, permission_required
+from ..models import User, Role, Permission
+from ..decorators import admin_required, permission_required
+from flask_login import login_required
 
 @main.route('/', methods=['GET', 'POST'])
 def index():

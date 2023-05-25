@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from . import login_manager
 from flask import current_app
 
@@ -50,7 +50,7 @@ class Role(db.Model):
             role = Role.query.filter_by(name=r).first()
             if role is None:
                 role = Role(name=r)
-            role.reset_permissions()
+            role.reset_permission()
             for perm in roles[r]:
                 role.add_permission(perm)
             role.default = (role.name == default_role)
@@ -87,6 +87,12 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     confirmed = db.Column(db.Boolean, default=False)
+
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
 
     def generate_confirmation_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -136,3 +142,12 @@ class User(UserMixin, db.Model):
         returns the string rep of the object
         """
         return '<User %r>' % self.username
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+
+    def is_administrator(self):
+        return False
+
+login_manager.anonymous_user = AnonymousUser
