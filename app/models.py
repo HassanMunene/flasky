@@ -175,7 +175,7 @@ class User(UserMixin, db.Model):
         return True
 
     def gravatar_hash(self):
-        return hashlib.md5(self.email.lower().encode('utf-8').hexdigest()
+        return hashlib.md5(self.email.lower().encode('utf-8').hexdigest())
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
