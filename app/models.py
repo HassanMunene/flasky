@@ -5,7 +5,8 @@ from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from . import login_manager
-from flask import current_app
+from flask import current_app, request
+import hashlib
 from datetime import datetime
 
 class Role(db.Model):
@@ -37,7 +38,6 @@ class Role(db.Model):
 
     def has_permission(self, perm):
         return self.permissions & perm == perm
-
 
     @staticmethod
     def insert_roles():
@@ -93,6 +93,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    avatar_hash = db.Column(db.String(32))
     def ping(self):
         """
         refresh user's last time visit
@@ -136,6 +137,13 @@ class User(UserMixin, db.Model):
             return False
         return data
 
+    def gravatar(self, size=100, default='identicon', rating='g'):
+            url = 'https://secure.gravatar.com/avatar'
+            hash = self.avatar_hash or self.gravatar_hash()
+            return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url, hash=hash, size=size, default=default, rating=rating)
+
+
+
     @property
     def password(self):
         raise AttributeError('Password is not a readable attribute')
@@ -156,6 +164,18 @@ class User(UserMixin, db.Model):
         returns the string rep of the object
         """
         return '<User %r>' % self.username
+    def __init__(self, **kwargs):
+        if self.email is not None and self.avatar_hash is None:
+            self.avatar_hash = self.gravatar_hash()
+    
+    def change_email(self, token):
+        self.email = new_email
+        self.avatar_hash = self.garavat_hash()
+        db.session.add(self)
+        return True
+
+    def gravatar_hash(self):
+        return hashlib.md5(self.email.lower().encode('utf-8').hexdigest()
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
