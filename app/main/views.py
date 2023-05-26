@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import render_template, session, redirect, url_for, flash
 from . import main
-from .forms import NameForm, EditProfileForm
+from .forms import NameForm, EditProfileForm, EditProfileAdminForm
 from .. import db
 from ..models import User, Role, Permission
 from ..decorators import admin_required, permission_required
@@ -58,7 +58,7 @@ def edit_profile():
     form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', form=form)
 
-@main.route('/edit-profile/<int: id>', methods=['GET', 'POST'])
+@main.route('/edit-profile/<int:id>', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def edit_profile_admin(id):
