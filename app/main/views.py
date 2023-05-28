@@ -9,6 +9,7 @@ from flask_login import login_required, current_user
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    form = PostForm()
     form = NameForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()

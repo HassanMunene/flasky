@@ -16,6 +16,7 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Log In')
 
+
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
     username = StringField('Username', validators=[DataRequired(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0, 'username must have only letters, numbers, dots or underscores')])
@@ -31,10 +32,12 @@ class RegistrationForm(FlaskForm):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Username already in use.')
 
+
 class ChangePassword(FlaskForm):
     oldpassword = PasswordField('Old Password', validators=[DataRequired()])
     newpassword = PasswordField('New Password', validators=[DataRequired()])
     submit = SubmitField('Create New Password')
+
 
 class EmailReset(FlaskForm):
     """
@@ -43,6 +46,7 @@ class EmailReset(FlaskForm):
     """
 
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
+
 
 class ResetPassword(FlaskForm):
     """

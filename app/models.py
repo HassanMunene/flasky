@@ -133,6 +133,11 @@ class User(UserMixin, db.Model):
     def is_administrator(self):
         return self.can(Permission.ADMIN)
 
+    """
+    ------------------------------------------------------------------------------------------
+    generate token to confirm the user's account by sending an email to the user's email
+    ------------------------------------------------------------------------------------------
+    """
     def generate_confirmation_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
         return s.dumps({'confirm': self.id})
@@ -148,6 +153,10 @@ class User(UserMixin, db.Model):
         self.confirmed = True
         db.session.add(self)
         return True
+    """
+    -------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------------------------------
+    """
 
     def generate_reset_token(self):
         s = Serializer(current_app.config['SECRET_KEY'])
