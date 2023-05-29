@@ -50,5 +50,9 @@ class EditProfileAdminForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
+    """
+    The that will be shown in the main page
+    for writing blog posts and submitting them
+    """
     body = TextAreaField("Whats on your mind", validators=[DataRequired()])
     submit = SubmitField("Submit")
