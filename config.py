@@ -22,6 +22,7 @@ class Config:
     MAIL_USERNAME = "devtools14347@outlook.com"
     MAIL_PASSWORD = "Munene14347"
     FLASKY_ADMIN = "devtools14347@outlook.com"
+    FLASKY_MODERATOR = "devtools214347@outlook.com"
 
     @staticmethod
     def init_app(app):

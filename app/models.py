@@ -113,6 +113,16 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        if self.role is None:
+            if self.email == current_app.config['FLASKY_ADMIN']:
+                self.role = Role.query.filter_by(name='Administrator').first()
+            if self.email == current_app.config['FLASKY_MODERATOR']:
+                self.role = Role.query.filter_by(name='Moderator').first()
+            if self.role is None:
+                self.role = Role.query.filter_by(default='True').first()
+
     """
     -------------------------------------------------------------------------------------------------
     set the password hash and store it in the password_hash field
@@ -205,6 +215,11 @@ class User(UserMixin, db.Model):
         return True
 
 class AnonymousUser(AnonymousUserMixin):
+    """
+    this custome class is added so as to implement the can() and is_administrator()
+    methods. It will enable the application to to freely call current_user.can()
+    or current_user.is_administrator() without checking if user is logged in or not
+    """
     def can(self, permissions):
         return False
 
