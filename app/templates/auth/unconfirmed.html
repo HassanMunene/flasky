@@ -10,7 +10,7 @@
 <div class="page-content">
 	<h2>You have not confirmed you account yet</h2>
 	<p>Before you can access this site you need to confirm your account. Check you inbox, you should have received an email with a confirmation link<br/> Need another confirmation email?
-	<a href="/">Click here</a>
+	<a href="{{ url_for('auth.resend_confirmation') }}">Click here</a>
 	</p>
 {% endblock %}
 
