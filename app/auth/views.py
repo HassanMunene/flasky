@@ -58,7 +58,20 @@ def register():
         flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('main.index'))
     return render_template('auth/register.html', form=form)
-"""
+
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        db.session.commit()
+        flash('You have confirmed your account. Thanks!')
+    else:
+        flash('The confirmation link is invalid or has expired.')
+    return redirect(url_for('main.index'))
+
 @auth.before_app_request
 def before_request():
     if current_user.is_authenticated:
@@ -79,17 +92,6 @@ def resend_confirmation():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email, 'Confirm Your account', 'auth/email/confirm', user=current_user, token=token)
     flash("Confirmation email has been sent.")
-"""
-@auth.route('/confirm/<token>')
-@login_required
-def confirm(token):
-    if current_user.confirmed:
-        return redirect(url_for('main.index'))
-    if current_user.confirm(token):
-        db.session.commit()
-        flash('You have confirmed your account. Thanks!')
-    else:
-        flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('main.index'))
 
 

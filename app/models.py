@@ -24,7 +24,11 @@ class Role(db.Model):
         super(Role, self).__init__(**kwargs)
         if self.permissions is None:
             self.permissions = 0
-
+    """
+    ----------------------------------------------------------------------------------------------------
+    The function will be used to manipulate the permissions field of the role
+    ----------------------------------------------------------------------------------------------------
+    """
     def add_permission(self, perm):
         if not self.has_permission(perm):
             self.permissions += perm
@@ -38,7 +42,17 @@ class Role(db.Model):
 
     def has_permission(self, perm):
         return self.permissions & perm == perm
+    """
+    ---------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------
+    """
 
+
+    """
+    ------------------------------------------------------------------------------------------------
+    This is a class method that will be used to add the permission to the different users in the database
+    so instead of adding the users manually ou do them automatically
+    """
     @staticmethod
     def insert_roles():
         roles = {
@@ -57,6 +71,10 @@ class Role(db.Model):
             role.default = (role.name == default_role)
             db.session.add(role)
         db.session.commit()
+    """
+    -----------------------------------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------------------------------------
+    """
 
     def __repr__(self):
         """
