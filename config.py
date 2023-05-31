@@ -22,10 +22,12 @@ class Config:
     MAIL_PASSWORD = "Munene14347"
     MAIL_USE_TLS = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.join(basedir, 'dev_data.sqlite')
-    FLASK_DEBUG = True
 
     @static
     def init_app(app):
         pass
+class DevelopmentConfig(Config):
+    FLASK_DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.join(basedir, 'dev_data.sqlite')
 
+config = {'developent': DevelopmentConfig}
