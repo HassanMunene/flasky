@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from ..models import User, Role
+from flask_pagedown.fields import PageDownField
 
 class NameForm(FlaskForm):
     """
@@ -54,5 +55,5 @@ class PostForm(FlaskForm):
     The that will be shown in the main page
     for writing blog posts and submitting them
     """
-    body = TextAreaField("Whats on your mind", validators=[DataRequired()])
+    body = PageDownField("Whats on your mind", validators=[DataRequired()])
     submit = SubmitField("Submit")

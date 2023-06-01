@@ -8,6 +8,13 @@
                 <div class="post-body">
                         {{ post.body }}
                 </div>
+		<div class="post-content">
+			<div class="post-footer">
+				<a href="{{ url_for('.post', id=post.id) }}">
+					<span class="label label-default">Permalink</span>
+				</a>
+			</div>
+		</div>
         </li>
         {% endfor %}
 </ul>
