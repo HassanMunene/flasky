@@ -238,3 +238,14 @@ class Post(db.Model):
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+class Follow(db.Model):
+    """
+    This is the association table that will be used
+    for self referencial in the many to many relationship between
+    the users
+    """
+    __tablename__ = "follows"
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    timestamp = db.Column(db.Datetime, default=Datetime.utcnow)
