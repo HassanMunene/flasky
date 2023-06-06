@@ -95,6 +95,30 @@ class Permission:
     MODERATE = 8
     ADMIN = 16
 
+
+class Post(db.Model):
+    """
+    The blueprint of what a post instance
+    will entail
+    """
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+class Follow(db.Model):
+    """
+    This is the association table that will be used
+    for self referencial in the many to many relationship between
+    the users
+    """
+    __tablename__ = "follows"
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 class User(UserMixin, db.Model):
     """
     class model for the users table
@@ -238,6 +262,11 @@ class User(UserMixin, db.Model):
         if user.id is None:
             return False
         return self.followers.filter_by(follower_id=user.id).first() is not None
+    
+    """
+    ---------------------------------------------------------------------------
+    ---------------------------------------------------------------------------
+    """
 
 
 class AnonymousUser(AnonymousUserMixin):
@@ -253,25 +282,3 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 login_manager.anonymous_user = AnonymousUser
-
-class Post(db.Model):
-    """
-    The blueprint of what a post instance
-    will entail
-    """
-    __tablename__ = 'posts'
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-class Follow(db.Model):
-    """
-    This is the association table that will be used
-    for self referencial in the many to many relationship between
-    the users
-    """
-    __tablename__ = "follows"
-    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    timestamp = db.Column(db.Datetime, default=Datetime.utcnow)
