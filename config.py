@@ -23,6 +23,7 @@ class Config:
     MAIL_PASSWORD = "Munene14347"
     FLASKY_ADMIN = "devtools14347@outlook.com"
     FLASKY_MODERATOR = "devtools214347@outlook.com"
+    FLASKY_COMMENTS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):
